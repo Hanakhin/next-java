@@ -92,7 +92,7 @@ export function ArticleFetcher() {
                             key={page}
                             onClick={() => handlePageChange(page)}
                             className={`mx-1 px-3 py-1 border rounded ${
-                                currentPage === page ? 'bg-blue-500 text-white' : 'bg-white'
+                                currentPage === page ? 'bg-green-500 text-white' : 'bg-white'
                             }`}
                         >
                             {page}

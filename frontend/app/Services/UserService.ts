@@ -24,6 +24,16 @@ class UserService {
             throw error;
         }
     }
+
+    static async deleteUser(userId:string) {
+        try {
+            const response = await axios.delete(`${API_URL}/${userId}`);
+            return response.data;
+        } catch (e) {
+            console.log(e);
+            throw e;
+        }
+    }
 }
 
-export default UserService; // Exportez directement l'instance de UserService
+export default UserService;

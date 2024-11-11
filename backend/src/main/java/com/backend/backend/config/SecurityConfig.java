@@ -7,6 +7,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -24,9 +26,21 @@ public class SecurityConfig {
                 .and()
                 .csrf().disable() // Désactivez CSRF pour les API REST (à utiliser avec précaution)
                 .authorizeHttpRequests((authz) -> authz
-                        .requestMatchers("/api/auth/login", "/api/auth/register","/api/*").permitAll() // Autoriser l'accès aux endpoints d'authentification
+                        .requestMatchers("/api/auth/login", "/api/auth/register", "/api/*").permitAll() // Autoriser l'accès aux endpoints d'authentification
                         .anyRequest().authenticated() // Exiger une authentification pour toutes les autres requêtes
                 );
         return http.build();
+    }
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:3000") // Remplacez par votre origine
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
+            }
+        };
     }
 }

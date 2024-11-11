@@ -37,6 +37,19 @@ export function UserFetcher() {
         }
     };
 
+    const handleDelete = async (userId:string) => {
+        if (confirm("Êtes-vous sûr de vouloir supprimer cet utilisateur ?")) {
+            try {
+                await UserService.deleteUser(userId);
+                // Mettre à jour la liste des utilisateurs après suppression
+                setUsers(users.filter(user => user.id !== userId));
+            } catch (error) {
+                console.log(error);
+                setError("Erreur lors de la suppression de l'utilisateur.");
+            }
+        }
+    };
+
     return (
         <section>
             <Table>
@@ -59,7 +72,7 @@ export function UserFetcher() {
                             <TableCell  className="text-right">{user.role}</TableCell>
                             <TableCell  className="text-right">
                                 <Button variant={'outline'} className={"hover:text-green-500 mr-3 border-primary hover:bg-primary-white"}>Modifier</Button>
-                                <Button variant={'outline'} className={"hover:text-red-500 border-primary hover:bg-primary-white"}>Supprimer</Button>
+                                <Button variant={'outline'} className={"hover:text-red-500 border-primary hover:bg-primary-white"} onClick={()=>handleDelete(user.id)}>Supprimer</Button>
                             </TableCell>
                         </TableRow>
                     )))}

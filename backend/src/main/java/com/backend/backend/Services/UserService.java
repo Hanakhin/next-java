@@ -1,5 +1,6 @@
 package com.backend.backend.Services;
 
+import com.backend.backend.Exceptions.UserNotFoundException;
 import com.backend.backend.Models.User;
 import com.backend.backend.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,5 +48,15 @@ public class UserService {
             }
         }
         return null;
+    }
+
+    public User deleteUser(UUID id) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            userRepository.delete(user);
+            return user;
+        }
+        throw new UserNotFoundException("User with ID " + id + " not found.");
     }
 }
