@@ -2,6 +2,17 @@
 
 import {useEffect,useState} from "react";
 import UserService from "@/app/Services/UserService";
+import {
+    Table,
+    TableBody,
+    TableCaption,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from "@/components/ui/table"
+import {Button} from "@/components/ui/button";
+
 
 export function UserFetcher() {
 
@@ -28,18 +39,33 @@ export function UserFetcher() {
 
     return (
         <section>
-            <div>
-                {loading && <p>Chargement des utilisateurs...</p>}
-                {error && <p style={{ color: 'red' }}>{error}</p>}
-                {!loading && !error && users.length === 0 && <p>Aucun utilisateur trouvé.</p>}
-                <ul>
-                    {users.map(user => (
-                        <li key={user.id} className={'text-red-500'}>
-                            {user.pseudo}--{user.email}
-                        </li>
-                    ))}
-                </ul>
-            </div>
+            <Table>
+                <TableCaption>Liste des utilisateurs</TableCaption>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead className="w-[100px]">Pseudo</TableHead>
+                        <TableHead>Email</TableHead>
+                        <TableHead>Possede un permis</TableHead>
+                        <TableHead className="text-right">Role</TableHead>
+                        <TableHead className="text-right">Actions</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {users.map((user=>(
+                        <TableRow key={user.id}>
+                            <TableCell className={"font-medium"}>{user.pseudo}</TableCell>
+                            <TableCell>{user.email}</TableCell>
+                            <TableCell>{user.hasPermis ? "oui" : "non"}</TableCell>
+                            <TableCell  className="text-right">{user.role}</TableCell>
+                            <TableCell  className="text-right">
+                                <Button variant={'outline'} className={"hover:text-green-500 mr-3 border-primary hover:bg-primary-white"}>Modifier</Button>
+                                <Button variant={'outline'} className={"hover:text-red-500 border-primary hover:bg-primary-white"}>Supprimer</Button>
+                            </TableCell>
+                        </TableRow>
+                    )))}
+                </TableBody>
+            </Table>
+
         </section>
     );
 }

@@ -1,15 +1,13 @@
-
 "use client";
-
 import { Avatar, Dropdown, Navbar } from "flowbite-react";
 import Image from "next/image";
 import {CustomLinkWithIcon} from "@/app/_Components/Buttons_Links/CustomLinkWithIcon";
 import {Calendar, Captions, Send, ShoppingBag} from "lucide-react";
 import Link from "next/link";
-import {useSession} from "next-auth/react";
+import {useSession,signOut} from "next-auth/react";
 
 export function CustomNavbar() {
-    const {data: session} = useSession()
+    const {data: session } = useSession()
 
     return (
         <Navbar className={'w-full flex bg-primary/50 backdrop-blur'}>
@@ -37,19 +35,20 @@ export function CustomNavbar() {
                             arrowIcon={false}
                             inline
                             label={
-                                <Avatar alt="User settings" img="/icons/defaultUser.svg" rounded />
+                                <Avatar alt="User profil" img="/icons/defaultUser.svg" rounded />
                             }
                         >
                             <Dropdown.Header>
-                                <span className="block text-sm"></span>
+                                <span className="block truncate text-sm font-medium">{session?.user?.pseudo}</span>
                                 <span className="block truncate text-sm font-medium">{session?.user?.email}</span>
                             </Dropdown.Header>
                             <Dropdown.Item className={"hover:text-green-400"}>Mes commandes</Dropdown.Item>
                             <Dropdown.Item className={"hover:text-green-400"}>Mes évènements</Dropdown.Item>
                             <Dropdown.Item className={"hover:text-green-400"}>Mon panier</Dropdown.Item>
                             <Dropdown.Item className={"hover:text-green-400"}>Paramètres</Dropdown.Item>
+                            {session?.user?.role == "ADMIN" && <Link href={'/admin/panel'}><Dropdown.Item className={"hover:text-green-400"}>Admin panel</Dropdown.Item></Link>}
                             <Dropdown.Divider />
-                            <Dropdown.Item className={"hover:text-red-500"}>Se déconnecter</Dropdown.Item>
+                            <Dropdown.Item className={"hover:text-red-500"} onClick={()=>signOut()}>Se déconnecter</Dropdown.Item>
                         </Dropdown>
                     ) : (
                         <Dropdown
