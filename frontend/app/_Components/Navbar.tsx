@@ -5,12 +5,11 @@ import { Avatar, Dropdown, Navbar } from "flowbite-react";
 import Image from "next/image";
 import {CustomLinkWithIcon} from "@/app/_Components/Buttons_Links/CustomLinkWithIcon";
 import {Calendar, Captions, Send, ShoppingBag} from "lucide-react";
-import {useState} from "react";
 import Link from "next/link";
+import {useSession} from "next-auth/react";
 
 export function CustomNavbar() {
-
-    const [connected,setConnected]=useState(false)
+    const {data: session} = useSession()
 
     return (
         <Navbar className={'w-full flex bg-primary/50 backdrop-blur'}>
@@ -33,7 +32,7 @@ export function CustomNavbar() {
                 </div>
 
                 <div className={"flex"}>
-                    {connected ? (
+                    {session ? (
                         <Dropdown
                             arrowIcon={false}
                             inline
@@ -42,8 +41,8 @@ export function CustomNavbar() {
                             }
                         >
                             <Dropdown.Header>
-                                <span className="block text-sm">NM Hanakhin</span>
-                                <span className="block truncate text-sm font-medium">hanakhin@gmail.com</span>
+                                <span className="block text-sm"></span>
+                                <span className="block truncate text-sm font-medium">{session?.user?.email}</span>
                             </Dropdown.Header>
                             <Dropdown.Item className={"hover:text-green-400"}>Mes commandes</Dropdown.Item>
                             <Dropdown.Item className={"hover:text-green-400"}>Mes évènements</Dropdown.Item>

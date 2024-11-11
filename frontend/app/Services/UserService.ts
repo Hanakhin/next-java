@@ -14,11 +14,10 @@ class UserService {
             throw error;
         }
     }
-
     // Méthode pour créer un nouvel utilisateur
     static async createUser(user:typeof userType) {
         try {
-            const response = await axios.post(API_URL, user);
+            const response = await axios.post("http://localhost:8080/api/auth/register", user);
             return response.data;
         } catch (error) {
             console.error("Erreur lors de la création de l'utilisateur:", error);
