@@ -7,17 +7,17 @@ export const authOptions = {
         CredentialsProvider({
             name: 'Credentials',
             credentials: {
-                email: { label: "Email", type: "text" },
+                pseudo: { label: "Pseudo", type: "text" },
                 password: { label: "Password", type: "password" }
             },
             async authorize(credentials) {
-                if (!credentials?.email || !credentials?.password) {
+                if (!credentials?.pseudo || !credentials?.password) {
                     return null;
                 }
 
                 try {
                     const response = await axios.post('http://localhost:8080/api/auth/login', {
-                        email: credentials.email,
+                        pseudo: credentials.pseudo,
                         password: credentials.password
                     });
 

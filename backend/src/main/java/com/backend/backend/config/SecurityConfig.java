@@ -22,12 +22,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors() // Activez la prise en charge de CORS
+                .cors()
                 .and()
-                .csrf().disable() // Désactivez CSRF pour les API REST (à utiliser avec précaution)
+                .csrf().disable()
                 .authorizeHttpRequests((authz) -> authz
-                        .requestMatchers("/api/auth/login", "/api/auth/register", "/api/*").permitAll() // Autoriser l'accès aux endpoints d'authentification
-                        .anyRequest().authenticated() // Exiger une authentification pour toutes les autres requêtes
+                        .requestMatchers("/api/auth/login", "/api/auth/register", "/api/*", "/api/articles","/api/events/*","/api/users/delete/*").permitAll()
+                        .anyRequest().authenticated()
                 );
         return http.build();
     }
@@ -38,8 +38,8 @@ public class SecurityConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:3000") // Remplacez par votre origine
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
+                        .allowedOrigins("*")
+                        .allowedMethods("*");
             }
         };
     }

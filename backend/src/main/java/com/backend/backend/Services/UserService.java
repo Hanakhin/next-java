@@ -39,8 +39,8 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User authenticateUser(String email, String password) {
-        Optional<User> userOptional = userRepository.findByEmail(email);
+    public User authenticateUser(String pseudo, String password) {
+        Optional<User> userOptional = userRepository.findByPseudo(pseudo);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             if (passwordEncoder.matches(password, user.getPassword())) {
@@ -58,5 +58,13 @@ public class UserService {
             return user;
         }
         throw new UserNotFoundException("User with ID " + id + " not found.");
+    }
+
+    public User findByUsername(String username) {
+        Optional<User> userOptional = userRepository.findByEmail(username);
+        if (userOptional.isPresent()) {
+            return userOptional.get();
+        }
+        throw new UserNotFoundException("User with username " + username + " not found.");
     }
 }

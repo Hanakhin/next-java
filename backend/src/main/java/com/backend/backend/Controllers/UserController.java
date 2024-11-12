@@ -33,7 +33,7 @@ public class UserController
         return new ResponseEntity<>(newuser, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<User> deleteUser(@PathVariable UUID id) {
         try {
             User deletedUser = userService.deleteUser(id); // Suppression par ID
