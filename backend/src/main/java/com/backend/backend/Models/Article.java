@@ -31,7 +31,6 @@ public class Article {
     private BigDecimal price;
 
     @NotNull(message = "L'article doit avoir une quantité en stock")
-    @Positive(message = "Le stock doit être positif")
     @Column(nullable = false)
     private Integer stock;
 

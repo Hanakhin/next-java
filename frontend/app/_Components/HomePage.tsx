@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function HomePage() {
     return (
-        <section className={"h-screen bg-home"}>
+        <section className={"h-screen bg-home bg-cover"}>
             <div className={"flex h-full"}>
                 <div className={'flex-1 h-full w-1/2 bg-transparent'}></div>
                 <div className={'flex-[1] flex h-full w-1/2 bg-transparent justify-center items-center'}>

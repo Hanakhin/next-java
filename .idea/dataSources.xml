@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="pechedb@localhost" uuid="ac8b2b97-0367-478a-9e61-70a61b7de532">
+    <data-source source="LOCAL" name="pechedb@localhost" uuid="de210c1e-73dc-4e2d-8096-12ec4a125ad8">
       <driver-ref>mariadb</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
