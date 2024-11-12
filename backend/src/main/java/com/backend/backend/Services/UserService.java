@@ -50,14 +50,12 @@ public class UserService {
         return null;
     }
 
-    public User deleteUser(UUID id) {
-        Optional<User> userOptional = userRepository.findById(id);
-        if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            userRepository.delete(user);
-            return user;
-        }
-        throw new UserNotFoundException("User with ID " + id + " not found.");
+
+    public void deleteUser(UUID id) throws UserNotFoundException {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
+        userRepository.delete(user);
+        // Ne pas retourner l'utilisateur supprimé
     }
 
     public User findByUsername(String username) {
