@@ -27,7 +27,7 @@ class UserService {
 
     static async deleteUser(userId:string) {
         try {
-            const response = await axios.delete(`${API_URL}/${userId}`);
+            const response = await axios.delete(`${API_URL}/delete/${userId}`);
             return response.data;
         } catch (e) {
             console.log(e);

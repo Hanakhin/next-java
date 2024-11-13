@@ -36,6 +36,10 @@ public class Concours {
     @Column(nullable = false, length = 1000)
     private String description;
 
+    @NotBlank(message = "le concours doit avoir une adresse")
+    @Column(nullable = false)
+    private String adresse;
+
     @ManyToMany
     @JoinTable(
             name = "concours_user",
@@ -46,4 +50,6 @@ public class Concours {
 
     @Column(nullable = false)
     private boolean active = true;
+
+
 }

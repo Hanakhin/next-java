@@ -33,15 +33,15 @@ public class UserController
         return new ResponseEntity<>(newuser, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<User> deleteUser(@PathVariable UUID id) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable UUID id) {
         try {
-            User deletedUser = userService.deleteUser(id); // Suppression par ID
-            return new ResponseEntity<>(deletedUser, HttpStatus.OK); // Retourne l'utilisateur supprimé
+            userService.deleteUser(id); // Suppression par ID
+            return new ResponseEntity<>("User successfully deleted", HttpStatus.OK); // Retourne un message de confirmation
         } catch (UserNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // Utilisateur non trouvé
+            return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND); // Utilisateur non trouvé
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR); // Erreur interne
+            return new ResponseEntity<>("An error occurred", HttpStatus.INTERNAL_SERVER_ERROR); // Erreur interne
         }
     }
     

@@ -10,7 +10,7 @@ export const SignInComponent = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [formData, setFormData] = useState({
-        email: '',
+        pseudo: '',
         password: '',
     });
 
@@ -28,7 +28,7 @@ export const SignInComponent = () => {
         e.preventDefault();
         const result = await signIn('credentials', {
             redirect: false,
-            email: formData.email,
+            pseudo: formData.pseudo,
             password: formData.password,
         });
 
@@ -50,13 +50,13 @@ export const SignInComponent = () => {
             {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
 
             <div>
-                <label htmlFor="email">Email</label>
+                <label htmlFor="pseudo">Pseudo</label>
                 <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    placeholder="exemple@exemple.com"
-                    value={formData.email}
+                    id="pseudo"
+                    name="pseudo"
+                    type="pseudo"
+                    placeholder="votre pseudo"
+                    value={formData.pseudo}
                     onChange={handleChange}
                     required
                 />

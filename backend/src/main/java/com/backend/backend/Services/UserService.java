@@ -39,8 +39,8 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User authenticateUser(String email, String password) {
-        Optional<User> userOptional = userRepository.findByEmail(email);
+    public User authenticateUser(String pseudo, String password) {
+        Optional<User> userOptional = userRepository.findByPseudo(pseudo);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
             if (passwordEncoder.matches(password, user.getPassword())) {
@@ -50,13 +50,19 @@ public class UserService {
         return null;
     }
 
-    public User deleteUser(UUID id) {
-        Optional<User> userOptional = userRepository.findById(id);
+
+    public void deleteUser(UUID id) throws UserNotFoundException {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
+        userRepository.delete(user);
+        // Ne pas retourner l'utilisateur supprimé
+    }
+
+    public User findByUsername(String username) {
+        Optional<User> userOptional = userRepository.findByEmail(username);
         if (userOptional.isPresent()) {
-            User user = userOptional.get();
-            userRepository.delete(user);
-            return user;
+            return userOptional.get();
         }
-        throw new UserNotFoundException("User with ID " + id + " not found.");
+        throw new UserNotFoundException("User with username " + username + " not found.");
     }
 }
