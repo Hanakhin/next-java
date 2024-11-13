@@ -15,7 +15,7 @@ class ConcourService {
 
     static async createConcour(concour: typeof concourType) {
         try {
-            const response = await axios.post(API_URL, concour);
+            const response = await axios.post(`${API_URL}/add`, concour);
             return response.data;
         } catch (error) {
             console.error("Erreur lors de la création du concours:", error);
@@ -35,7 +35,7 @@ class ConcourService {
 
     static async deleteConcours(concoursId : string){
         try{
-            const response = await axios.delete(`${API_URL}/${concoursId}`)
+            const response = await axios.delete(`${API_URL}/delete/${concoursId}`)
             return response.data;
         }catch(error){
             console.error("erreur lors de la suppression du concours", error);

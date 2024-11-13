@@ -6,7 +6,7 @@ import {Button} from "@/components/ui/button";
 import {useEffect, useState} from "react";
 import ArticleService from "@/app/Services/ArticleService";
 
-export const UpdateArticle=()=>{
+export const ManageArticles=()=>{
     const [articles, setArticles] = useState([]);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
@@ -24,6 +24,18 @@ export const UpdateArticle=()=>{
             setError("Erreur lors de la récupération des articles.");
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleDelete = async (articleId:string) => {
+        if (confirm("Êtes-vous sûr de vouloir supprimer cet article ?")) {
+            try {
+                await ArticleService.deleteArticle(articleId);
+                setArticles(articles.filter(article => article.id !== articleId));
+            } catch (error) {
+                console.log(error);
+                setError("Erreur lors de la suppression de l'utilisateur.");
+            }
         }
     };
 
@@ -53,7 +65,7 @@ export const UpdateArticle=()=>{
                             <TableCell  className="text-right">{article.category}</TableCell>
                             <TableCell  className="text-right">
                                 <Button variant={'outline'} className={"hover:text-green-500 mr-3 border-primary hover:bg-primary-white"}>Modifier</Button>
-                                <Button variant={'outline'} className={"hover:text-red-500 border-primary hover:bg-primary-white"}>Supprimer</Button>
+                                <Button variant={'outline'} className={"hover:text-red-500 border-primary hover:bg-primary-white"} onClick={()=>handleDelete(article.id)}>Supprimer</Button>
                             </TableCell>
                         </TableRow>
                     )))}

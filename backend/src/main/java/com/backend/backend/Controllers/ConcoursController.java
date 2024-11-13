@@ -1,5 +1,6 @@
 package com.backend.backend.Controllers;
 
+import com.backend.backend.Exceptions.UserNotFoundException;
 import com.backend.backend.Models.Concours;
 import com.backend.backend.Models.User;
 import com.backend.backend.Services.ConcoursService;
@@ -30,17 +31,21 @@ public class ConcoursController {
         return new ResponseEntity<>(concours, HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<Concours> createConcours(@RequestBody Concours concour) {
         Concours newconcour = concoursService.createConcour(concour);
         return new ResponseEntity<>(newconcour, HttpStatus.CREATED);
     }
 
-    @PostMapping("/{concoursId}/participate")
-    public ResponseEntity<?> participateToConcours(@PathVariable UUID concoursId, Authentication authentication) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        User user = userService.findByUsername(userDetails.getUsername());
-        concoursService.addParticipant(concoursId, user.getId());
-        return ResponseEntity.ok().build();
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable UUID id) {
+        try {
+            concoursService.deleteEvent(id); // Suppression par ID
+            return new ResponseEntity<>("event successfully deleted", HttpStatus.OK); // Retourne un message de confirmation
+        } catch (UserNotFoundException e) {
+            return new ResponseEntity<>("event not found", HttpStatus.NOT_FOUND); // Utilisateur non trouvé
+        } catch (Exception e) {
+            return new ResponseEntity<>("An error occurred", HttpStatus.INTERNAL_SERVER_ERROR); // Erreur interne
+        }
     }
 }

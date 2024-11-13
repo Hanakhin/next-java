@@ -26,6 +26,12 @@ public class UserController
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
+    @GetMapping("withPermis")
+    public ResponseEntity<List<User>> getUsersWithPermis(@RequestParam Boolean hasPermis){
+        List<User> users = userService.getUsersWithPermis(hasPermis);
+        return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<User> adduser(@RequestBody User user){
 

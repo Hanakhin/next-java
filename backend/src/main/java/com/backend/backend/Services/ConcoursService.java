@@ -1,5 +1,8 @@
 package com.backend.backend.Services;
 
+import com.backend.backend.Exceptions.ArticleNotFoundException;
+import com.backend.backend.Exceptions.UserNotFoundException;
+import com.backend.backend.Models.Article;
 import com.backend.backend.Models.Concours;
 import com.backend.backend.Models.User;
 import com.backend.backend.Repositories.ConcoursRepository;
@@ -40,5 +43,11 @@ public class ConcoursService {
 
         concours.getParticipants().add(user);
         concoursRepository.save(concours);
+    }
+
+    public void deleteEvent(UUID id) throws ArticleNotFoundException {
+        Concours concours = concoursRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("Event not found with id: " + id));
+        concoursRepository.delete(concours);
     }
 }

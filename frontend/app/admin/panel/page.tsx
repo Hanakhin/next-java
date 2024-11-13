@@ -3,9 +3,10 @@ import {Spacing} from "@/app/_Components/Spacing";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {UserFetcher} from "@/app/_Components/fetchers/UserFetcher";
 import AddArticle from "@/app/admin/panel/articles/AddArticle";
-import {UpdateArticle} from "@/app/admin/panel/articles/UpdateArticle";
+import {ManageArticles} from "@/app/admin/panel/articles/UpdateArticle";
 import AddEvent from "@/app/admin/panel/events/addEvent";
 import {EventFecther} from "@/app/_Components/fetchers/EventFetcher";
+import {ManagePermis} from "@/app/admin/panel/permis/ManagePermis";
 
 const AdminPanel =()=>{
     return(
@@ -20,7 +21,7 @@ const AdminPanel =()=>{
                 </TabsList>
                 <TabsContent value="Users"><UserFetcher/></TabsContent>
                 <TabsContent value="Articles"><ArticlesGestion/></TabsContent>
-                <TabsContent value="Permis"></TabsContent>
+                <TabsContent value="Permis"><ManagePermis/></TabsContent>
                 <TabsContent value="Events"><EventGestion/></TabsContent>
 
             </Tabs>
@@ -39,7 +40,7 @@ const ArticlesGestion=()=>{
                 <TabsTrigger value="Articles">Gerer les Articles</TabsTrigger>
                 <TabsTrigger value="addArticle">Ajouter un article</TabsTrigger>
             </TabsList>
-            <TabsContent value="Articles"><UpdateArticle/></TabsContent>
+            <TabsContent value="Articles"><ManageArticles/></TabsContent>
             <TabsContent value="addArticle"><AddArticle/></TabsContent>
         </Tabs>
     )

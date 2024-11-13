@@ -58,11 +58,11 @@ public class UserService {
         // Ne pas retourner l'utilisateur supprimé
     }
 
-    public User findByUsername(String username) {
-        Optional<User> userOptional = userRepository.findByEmail(username);
-        if (userOptional.isPresent()) {
-            return userOptional.get();
+    public List<User> getUsersWithPermis(Boolean hasPermis) {
+        List<User> users = userRepository.findByHasPermis(hasPermis);
+        if (users.isEmpty()) {
+            throw new UserNotFoundException("No users found with permis " + hasPermis);
         }
-        throw new UserNotFoundException("User with username " + username + " not found.");
+        return users;
     }
 }

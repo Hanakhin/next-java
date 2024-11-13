@@ -14,6 +14,19 @@ class UserService {
             throw error;
         }
     }
+
+    static async getUsersWithPermis(hasPermis:boolean){
+        try{
+            return await axios.get(`${API_URL}/withPermis`,{
+                params:{hasPermis}
+            });
+        }catch (e) {
+            console.log(e)
+            throw e;
+        }
+    }
+
+
     // Méthode pour créer un nouvel utilisateur
     static async createUser(user:typeof userType) {
         try {
