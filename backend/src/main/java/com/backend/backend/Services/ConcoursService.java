@@ -47,7 +47,7 @@ public class ConcoursService {
 
     public void deleteEvent(UUID id) throws ArticleNotFoundException {
         Concours concours = concoursRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("Event not found with id: " + id));
+                .orElseThrow(() -> new UserNotFoundException(id));
         concoursRepository.delete(concours);
     }
 }

@@ -34,7 +34,7 @@ public class ArticleService {
 
     public void deleteArticle(UUID id) throws ArticleNotFoundException {
         Article article = articleRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
+                .orElseThrow(() -> new ArticleNotFoundException(id));
         articleRepository.delete(article);
     }
 }

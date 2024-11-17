@@ -1,12 +1,15 @@
 "use client"
 
 import { useEffect, useState, useMemo } from "react";
+import { useSession } from "next-auth/react";
+import { Select } from "flowbite-react";
 import ArticleService from "@/app/Services/ArticleService";
+import { PanierService } from "@/app/Services/PanierService";
 import { ArticleCard } from '../ArticleCard';
-import usePagination from '@/hooks/UsePagination'; // Assurez-vous que le chemin d'importation est correct
-import { Select } from "flowbite-react"; // Importez le composant Select de Flowbite
+import usePagination from '@/hooks/UsePagination';
 
 export function ArticleFetcher() {
+    const { data: session } = useSession();
     const [articles, setArticles] = useState([]);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(true);
@@ -23,28 +26,39 @@ export function ArticleFetcher() {
             const res = await ArticleService.getAllArticles();
             setArticles(res.data);
         } catch (error) {
-            console.log(error);
+            console.error("Erreur lors de la récupération des articles:", error);
             setError("Erreur lors de la récupération des articles.");
         } finally {
             setLoading(false);
         }
     };
 
+    const handleAddToCart = async (articleId: string) => {
+        if (!session?.user?.id) {
+            console.error("Utilisateur non connecté");
+            return;
+        }
+
+        try {
+            await PanierService.addToCart(session.user.id, articleId);
+            console.log("Article ajouté au panier avec succès");
+            // Ajouter ici une notification ou mise à jour de l'UI
+        } catch (error) {
+            console.error("Erreur lors de l'ajout de l'article au panier:", error);
+            // Gérer l'erreur (par exemple, afficher un message à l'utilisateur)
+        }
+    };
+
     const filteredAndSortedArticles = useMemo(() => {
         let result = [...articles];
-
-        // Filtrage par catégorie
         if (categoryFilter !== "all") {
             result = result.filter(article => article.category === categoryFilter);
         }
-
-        // Tri par prix
         if (priceSort === "asc") {
             result.sort((a, b) => a.price - b.price);
         } else if (priceSort === "desc") {
             result.sort((a, b) => b.price - a.price);
         }
-
         return result;
     }, [articles, categoryFilter, priceSort]);
 
@@ -53,9 +67,13 @@ export function ArticleFetcher() {
         itemsPerPage: 3
     });
 
-    const uniqueCategories = useMemo(() => {
-        return ["all", ...new Set(articles.map(article => article.category))];
-    }, [articles]);
+    const uniqueCategories = useMemo(() =>
+            ["all", ...new Set(articles.map(article => article.category))],
+        [articles]
+    );
+
+    if (loading) return <p className="text-center py-4">Chargement des articles...</p>;
+    if (error) return <p className="text-center py-4 text-red-500">{error}</p>;
 
     return (
         <section className="container mx-auto px-4">
@@ -74,16 +92,19 @@ export function ArticleFetcher() {
                 </Select>
             </div>
 
-            {loading && <p className="text-center py-4">Chargement des articles...</p>}
-            {error && <p className="text-center py-4 text-red-500">{error}</p>}
-            {!loading && !error && currentItems.length === 0 && (
+            {currentItems.length === 0 ? (
                 <p className="text-center py-4">Aucun article trouvé.</p>
+            ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {currentItems.map(article => (
+                        <ArticleCard
+                            key={article.id}
+                            article={article}
+                            onAddToCart={() => handleAddToCart(article.id)}
+                        />
+                    ))}
+                </div>
             )}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {currentItems.map(article => (
-                    <ArticleCard key={article.id} article={article} />
-                ))}
-            </div>
 
             {totalPages > 1 && (
                 <div className="flex justify-center mt-4">

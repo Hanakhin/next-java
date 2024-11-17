@@ -53,16 +53,13 @@ public class UserService {
 
     public void deleteUser(UUID id) throws UserNotFoundException {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("User not found with id: " + id));
+                .orElseThrow(() -> new UserNotFoundException(id));
         userRepository.delete(user);
         // Ne pas retourner l'utilisateur supprimé
     }
 
     public List<User> getUsersWithPermis(Boolean hasPermis) {
         List<User> users = userRepository.findByHasPermis(hasPermis);
-        if (users.isEmpty()) {
-            throw new UserNotFoundException("No users found with permis " + hasPermis);
-        }
         return users;
     }
 }

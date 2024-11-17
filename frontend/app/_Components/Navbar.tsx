@@ -8,7 +8,7 @@ import {useSession,signOut} from "next-auth/react";
 
 export function CustomNavbar() {
     const {data: session } = useSession()
-
+    const id = session?.user.id
     return (
         <Navbar className={'w-full flex bg-primary/50 backdrop-blur'}>
 
@@ -44,8 +44,9 @@ export function CustomNavbar() {
                             </Dropdown.Header>
                             <Dropdown.Item className={"hover:text-green-400"}>Mes commandes</Dropdown.Item>
                             <Dropdown.Item className={"hover:text-green-400"}>Mes évènements</Dropdown.Item>
-                            <Dropdown.Item className={"hover:text-green-400"}>Mon panier</Dropdown.Item>
-                            <Dropdown.Item className={"hover:text-green-400"}>Paramètres</Dropdown.Item>
+                            <Link href={`/user/${id}/panier`}>
+                                <Dropdown.Item className={"hover:text-green-400"}>Mon panier</Dropdown.Item>
+                            </Link>                            <Dropdown.Item className={"hover:text-green-400"}>Paramètres</Dropdown.Item>
                             {session?.user?.role == "ADMIN" && <Link href={'/admin/panel'}><Dropdown.Item className={"hover:text-green-400"}>Admin panel</Dropdown.Item></Link>}
                             <Dropdown.Divider />
                             <Dropdown.Item className={"hover:text-red-500"} onClick={()=>signOut()}>Se déconnecter</Dropdown.Item>
