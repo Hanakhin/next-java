@@ -62,4 +62,13 @@ public class UserService {
         List<User> users = userRepository.findByHasPermis(hasPermis);
         return users;
     }
+
+    public User getUserById(UUID id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
+    }
+
+    public Optional<User> getUserByPseudo(String pseudo) {
+        return userRepository.findByPseudo(pseudo);
+    }
 }

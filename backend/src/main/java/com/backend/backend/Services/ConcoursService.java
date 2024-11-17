@@ -50,4 +50,20 @@ public class ConcoursService {
                 .orElseThrow(() -> new UserNotFoundException(id));
         concoursRepository.delete(concours);
     }
+
+
+    public void participateToConcours(UUID concoursId, UUID userId) {
+        Concours concours = concoursRepository.findById(concoursId)
+                .orElseThrow(() -> new EntityNotFoundException("Concours not found"));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        // Vérifiez si l'utilisateur est déjà participant
+        if (concours.getParticipants().contains(user)) {
+            throw new IllegalArgumentException("User is already a participant in this concours");
+        }
+
+        concours.getParticipants().add(user);
+        concoursRepository.save(concours);
+    }
 }

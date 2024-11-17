@@ -25,15 +25,20 @@ export function ArticleCard({ article, onAddToCart }: ArticleCardProps) {
         e.preventDefault();
         try {
             if(session){
-                await onAddToCart();
-                window.alert('article' + article + 'ajouté au panier !')
+
+                if(article.available ){
+                    await onAddToCart();
+                    window.alert('article' + " " + article.label + " " +  'ajouté au panier !')
+                }else{
+                    window.alert("l'article est indisponible...")
+                }
+
             }else{
                 window.alert('vous devez vous connecter pour ajouter cet article au panier')
             }
 
         } catch (error) {
             console.error("Erreur lors de l'ajout au panier:", error);
-            // Gérer l'erreur (par exemple, afficher un message à l'utilisateur)
         }
     };
 
@@ -41,7 +46,7 @@ export function ArticleCard({ article, onAddToCart }: ArticleCardProps) {
         <Card
             className="max-w-sm p-2"
             imgAlt={article.label}
-            imgSrc={"/image/articles/default.png"}
+            imgSrc={`/image/articles/default-${article.category}.jpg`}
         >
             <h5 className="text-xl font-semibold tracking-tight text-primary">
                 {article.label}

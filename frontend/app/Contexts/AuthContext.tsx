@@ -1,4 +1,5 @@
-// AuthContext.tsx
+
+"use client"// AuthContext.tsx
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 
@@ -7,6 +8,7 @@ type User = {
     username: string;
     pseudo: string;
     role: string;
+    email:string
 };
 
 type AuthContextType = {

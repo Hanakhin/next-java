@@ -77,26 +77,21 @@ export function PanierFetcher() {
                         <TableHead className="w-[200px]">Propriétaire</TableHead>
                         <TableHead>Articles</TableHead>
                         <TableHead>Date de création</TableHead>
-                        <TableHead>Actif</TableHead>
                         <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {panier ? (
                         <TableRow key={panier.id}>
-                            <TableCell className={"font-medium"}>{panier.owner.username}</TableCell>
-                            <TableCell>{panier.articles.length} articles</TableCell>
+                            <TableCell>{panier.owner.pseudo}</TableCell>
+                            <TableCell>
+                                {panier.articles.map((article =>(
+                                <p key={article.id}>{article.label}</p>
+                            )))}
+                            </TableCell>
                             <TableCell>{formatDate(panier.dateCreation)}</TableCell>
-                            <TableCell>{panier.active ? "Oui" : "Non"}</TableCell>
                             <TableCell className="text-right">
                                 <Button variant={'outline'} className={"hover:text-red-500 border-primary hover:bg-primary-white"} onClick={handleClearPanier}>Vider le panier</Button>
-                                {/* Affichage des articles avec option de suppression */}
-                                {panier.articles.map(article => (
-                                    <div key={article.id}>
-                                        {article.nom}
-                                        <Button variant={'outline'} className={"hover:text-red-500 border-primary hover:bg-primary-white"} onClick={() => handleDeleteArticle(article.id)}>Supprimer</Button>
-                                    </div>
-                                ))}
                             </TableCell>
                         </TableRow>
                     ) : (

@@ -115,12 +115,12 @@ export const ArticleForm = () => {
                         <SelectValue placeholder="Sélectionnez une catégorie"/>
                     </SelectTrigger>
                     <SelectContent>
-                        <SelectItem value="canne a peche">Canne à pêche</SelectItem>
+                        <SelectItem value="canne">Canne à pêche</SelectItem>
                         <SelectItem value="appat">Appât</SelectItem>
                         <SelectItem value="casquette">Casquette</SelectItem>
-                        <SelectItem value="chaise de peche">Chaise de pêche</SelectItem>
+                        <SelectItem value="chaise">Chaise de pêche</SelectItem>
                         <SelectItem value="moulinet">Moulinet</SelectItem>
-                        <SelectItem value="fil de peche">Fil de pêche</SelectItem>
+                        <SelectItem value="fil">Fil de pêche</SelectItem>
                     </SelectContent>
                 </Select>
             </div>
